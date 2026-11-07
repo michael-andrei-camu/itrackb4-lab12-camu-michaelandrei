@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Genre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
@@ -35,6 +36,10 @@ class BookController extends Controller
 
         $validated['genre'] = Genre::findOrFail($validated['genre_id'])->name;
         $book = Book::create($validated);
+
+        Log::info('Book saved', [
+            'id' => $book->id,
+        ]);
 
         return redirect()
             ->route('books.details', $book->id)

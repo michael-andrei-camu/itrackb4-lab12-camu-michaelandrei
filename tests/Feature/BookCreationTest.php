@@ -195,4 +195,13 @@ class BookCreationTest extends TestCase
             ->assertSee('value="invalid-price"', false)
             ->assertSee('Form values restored. Changes were not saved.');
     }
+
+    public function test_nonexistent_book_uses_custom_404_page(): void
+    {
+        $this->get('/books/99999')
+            ->assertNotFound()
+            ->assertSee('404 - Page Not Found')
+            ->assertSee('The book or page you are looking for does not exist in our directory.')
+            ->assertSee(route('books.catalog'));
+    }
 }
